@@ -1,2 +1,8 @@
 # iSight
-A smart assist for the visually impaired.
+iSight is a smart assist for the visually impaired. It takes the visual input through a camera mounted on a cap and gives an auditory output to the user regarding the contents in the camera's vicinity.
+
+### Usage Scenario
+Currently, the scenario is such that the user gives verbal instructions to the system like "Find bottle" and the system in turn scans the view and informs the user if the object that is being searched for is in the camera's view. This scanning is done in realtime and the information can be used to identify the objects. The system can be further updated to accomplish other tasks such as playing music or web browsing (search results should be provided using text to speech).
+
+### Software Aspect
+The system would be running on a Raspberry Pi. The model has not been decided yet. First speech recognition is used to get the user commands. The video feed from the camera is analyzed frame by frame and the requested object to be searched is looked for. Each frame is passed through a pre-trained model (currently using the tensorflow models trained on the COCO dataset; different models are being tested to identify the best model for the purpose). This model would preferably be in the cloud and the inference would run on it as well in order to save fps. The information about the detections will be used to identify if the requested object is in the camera's view. If it is, text to speech python libraries would be used to inform the user about it's location (whether it is at the center, left or right of the user; the output can be configured to be more precise about the location).
