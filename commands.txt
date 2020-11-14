@@ -1,0 +1,40 @@
+curl -X POST -F "file=@pic.jpg" 34.126.76.107:8080/detect
+
+docker build -t gcr.io/isight123/isight:v1 docker-detect
+
+docker run --rm -p 80:80 gcr.io/isight123/isight:v1
+
+export PROJECT_ID=isight123
+
+gcloud auth configure-docker
+
+docker push gcr.io/isight123/isight:v1
+
+gcloud config set project $PROJECT_ID
+
+gcloud config set compute/zone asia-southeast1-c
+
+gcloud container clusters create isight-cluster
+
+gcloud compute instances list
+
+kubectl create deployment isight --image=gcr.io/isight123/isight:v1
+
+kubectl scale deployment isight --replicas=10
+
+kubectl autoscale deployment isight --cpu-percent=80 --min=7 --max=10
+
+kubectl get pods
+
+kubectl expose deployment isight --name=isight-service --type=LoadBalancer --port 8080 --target-port 80
+
+kubectl get service
+
+
+
+
+
+
+kubectl delete service isight-service
+
+gcloud container clusters delete isight-cluster
