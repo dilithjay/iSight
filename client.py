@@ -86,7 +86,7 @@ def locationToText(cords):
         txt = "center"
     return txt
 
-#----------------Single Frame Detection------------------
+
 try_again = False
 command = ""
 while True:
@@ -216,4 +216,3 @@ while True:
         else:
             engine.say("I couldn't find any text")
             engine.runAndWait()
-#--------------------------------------------------------
