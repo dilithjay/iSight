@@ -17,7 +17,5 @@ Hosted the MAX object detector on Google Cloud's Compute Engine. The object dete
 A custom Dockerfile and the respective Docker image was created such that it includes just the components we require. Another thing that should be attempted is running the inference (Docker image) on a machine with GPU.
 
 ### Progress Update (23/09/2020)
-Implemented the text to speech, speech recognition and the logic for switching between modes on command. For speech recognition, the python library called SpeechRecognition was used. Steven Hickson's PiAUISuite was also tried for speech recognition. However, the version of Raspbian installed was incompatible with that which PiAUISuite was created for.
-
-### Progress Update (28/09/2020)
-Used Pytesseract to add a feature to be able to read text that was placed in front of the camera. It wasn't too accurate under low lit conditions. The text has to be clear as well.
+Implemented the text to speech, speech recognition and the logic for switching between modes on command. For speech recognition, the python library called SpeechRecognition was used. Steven Hickson's PiAUISuite was also tried for speech recognition. However, the version of Raspbian installed was incompatible with that which PiAUISuite was created for. Used Pytesseract to add a feature to be able to read text that was placed in front of the camera. It wasn't too accurate under low lit conditions. The text has to be clear as well.
+Furthermore, implemented capabilities for voice controlled YouTube searching and Wikipedia searching using the python libraries, pywhatkit and wikipedia, respectively.
