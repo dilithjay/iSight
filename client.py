@@ -23,6 +23,13 @@ from pygame import mixer
 mixer.init()
 mixer.music.load("select.mp3")
 
+# for youtube
+import pywhatkit
+# for wikipedia
+import wikipedia
+# for getting time
+from datetime import datetime
+
 URL = "http://35.240.223.99:8080"
 
 def request_detect(f):
@@ -86,7 +93,11 @@ def locationToText(cords):
         txt = "center"
     return txt
 
+def speak(speak_text):
+    engine.say(speak_text)
+    engine.runAndWait()
 
+#----------------Single Frame Detection------------------
 try_again = False
 command = ""
 while True:
@@ -94,6 +105,7 @@ while True:
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
             print('speak')
+            speak("How can I help you?")
             audio = r.listen(source,phrase_time_limit=5)
             try:
                 text = r.recognize_google(audio, show_all=True)
@@ -106,6 +118,7 @@ while True:
         
         item = ''
         for i in commands:
+            i = i.lower()
             if 'find' in i:
                 command = i
                 items = i.split()
@@ -113,14 +126,34 @@ while True:
                     if i in labels:
                         item = i
                         break
-            elif 'what' in i:
-                command = 'what'
+            elif 'look around' in i:
+                command = 'look around'
+                break
             elif 'read' in i:
                 command = 'read'
+                break
+            elif 'search wikipedia for ' in i:
+                command = i.replace('search wikipedia for', '')
+                try:
+                    results = wikipedia.search(command)
+                    print(results[0])
+                    wiki_result = wikipedia.summary(results[0], 1)
+                    print(wiki_result)
+                    speak(wiki_result)
+                except:
+                    speak("Couldn't find wikipedia article for " + command)
+                break
+            elif 'search youtube for ' in i:
+                command = i.replace('search youtube for', '')
+                pywhatkit.playonyt(command)
+                break
+            elif "time" in i:
+                cur_time = datetime.now().strftime('%I:%M %p')
+                speak("The current time is " + cur_time)
+                break
     try_again = False
     if 'find' in command:
-        engine.say("Looking for " + item)
-        engine.runAndWait()
+        speak("Looking for " + item)
         totx, toty, count = 0, 0, 0
         # Read image from camera (get the average location from 2 images for accuracy)
         for i in range(3):
@@ -148,19 +181,16 @@ while True:
         # Speak location through text to speech
         if count > 0:
             print("Found {} to your {}".format(item, locationToText((totx, toty))))
-            engine.say("Found {} to your {}".format(item, locationToText((totx, toty))))
-            engine.runAndWait()
+            speak("Found {} to your {}".format(item, locationToText((totx, toty))))
         else:
             print("Couldn't find", item)
-            engine.say("Couldn't find " + item)
-            engine.runAndWait()
+            speak("Couldn't find " + item)
             # try_again = 'yes' in input("Would you like me to try again? ")
             ask = True
             while ask:
                 with sr.Microphone() as source:
                     r.adjust_for_ambient_noise(source)
-                    engine.say("Would you like me to look again?")
-                    engine.runAndWait()
+                    speak("Would you like me to look again?")
                     audio = r.listen(source,phrase_time_limit=5)
                     try:
                         text = r.recognize_google(audio, show_all=True)
@@ -177,9 +207,8 @@ while True:
                             try_again = True
                             break
             
-    elif 'what' in command:
-        engine.say("Looking at what's in front of you.")
-        engine.runAndWait()
+    elif 'look around' in command:
+        speak("Looking at what's in front of you.")
         t = time.time() + 5
         detections = {}
         while time.time() < t:
@@ -198,11 +227,9 @@ while True:
                     else:
                         detections[name] = [pos]
                     print('Found {} at {} with {}% possibility'.format(name, locationToText(pos), round(i['score'] * 100, 2)))
-                    engine.say('Found {} at {}'.format(name, locationToText(pos)))
-                    engine.runAndWait()
+                    speak('Found {} at {}'.format(name, locationToText(pos)))
     elif 'read' in command:
-        engine.say('Reading')
-        engine.runAndWait()
+        speak('Reading')
         try:
             img = cap.read()
             image = imutils.resize(img, width=300)
@@ -211,8 +238,8 @@ while True:
         im = Image.fromarray(img)
         text = pytesseract.image_to_string(im, lang='eng')
         if text != '':
-            engine.say(text)
-            engine.runAndWait()
+            speak(text)
         else:
-            engine.say("I couldn't find any text")
-            engine.runAndWait()
+            speak("I couldn't find any text")
+#--------------------------------------------------------
+
