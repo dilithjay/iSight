@@ -1,7 +1,7 @@
 # iSight
 iSight is a smart assist for the visually impaired. It takes the visual input through a camera mounted on a cap and gives an auditory output to the user regarding the contents in the camera's vicinity.
 
-### Demo Link
+### Demo
 https://drive.google.com/file/d/1cpjqhke6yeJiW5cuS2AoX2o3VNE7mBYt/view?usp=sharing
 
 ### Usage Scenario
