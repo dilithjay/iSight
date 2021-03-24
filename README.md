@@ -1,6 +1,9 @@
 # iSight
 iSight is a smart assist for the visually impaired. It takes the visual input through a camera mounted on a cap and gives an auditory output to the user regarding the contents in the camera's vicinity.
 
+### Demo Link
+https://drive.google.com/file/d/1cpjqhke6yeJiW5cuS2AoX2o3VNE7mBYt/view?usp=sharing
+
 ### Usage Scenario
 Currently, the scenario is such that the user gives verbal instructions to the system like "Find bottle" and the system in turn scans the view and informs the user if the object that is being searched for is in the camera's view. This scanning is done in realtime and the information can be used to identify the objects. The system can be further updated to accomplish other tasks such as playing music, YouTube or web browsing (search results should be provided using text to speech).
 
